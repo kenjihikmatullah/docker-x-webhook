@@ -13,4 +13,7 @@ RUN pip install -r requirements.txt
 
 COPY . ./
 
+RUN chmod 755 ./scripts/update-frontend.sh && \
+    chmod 755 ./scripts/update-backend.sh
+
 CMD [ "python", "./app.py" ]

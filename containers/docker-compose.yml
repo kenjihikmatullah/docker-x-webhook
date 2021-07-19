@@ -29,18 +29,6 @@ services:
     networks: 
       - dxw-network
 
-  webhook:
-    build:
-      context: ../webhook/
-      dockerfile: ../containers/webhook/Dockerfile
-    image: dxw-webhook
-    container_name: dxw-webhook
-    working_dir: /app
-    volumes: 
-      - ../webhook/:/app
-    networks: 
-      - dxw-network
-
   webserver:
     image: nginx:alpine
     container_name: dxw-webserver

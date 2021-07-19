@@ -10,6 +10,7 @@ services:
     working_dir: /app
     tty: true
     volumes: 
+      - ../frontend/:/app
       - frontend-build:/app/build
     networks: 
       - dxw-network 

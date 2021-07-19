@@ -1,0 +1,49 @@
+version: '3.7'
+
+services: 
+  frontend:
+    build: 
+      context: ../frontend/
+      dockerfile: ../containers/frontend/Dockerfile
+    image: dxw-frontend
+    container_name: dxw-frontend
+    working_dir: /app
+    tty: true
+    volumes: 
+      - frontend-build:/app/build
+    networks: 
+      - dxw-network 
+
+  backend:
+    build: 
+      args: 
+        user: admin
+        uid: 1000
+      context: ../backend/
+      dockerfile: ../containers/backend/Dockerfile
+    image: dxw-backend
+    container_name: dxw-backend
+    working_dir: /var/www
+    volumes: 
+      - ../backend/:/var/www
+    networks: 
+      - dxw-network
+
+  webserver:
+    image: nginx:alpine
+    container_name: dxw-webserver
+    volumes: 
+      - frontend-build:/app/build:ro
+      - ../backend/:/var/www
+      - ./webserver/conf.d/:/etc/nginx/conf.d
+    ports: 
+      - 8000:80
+    networks: 
+      - dxw-network
+
+networks: 
+  dxw-network:
+    driver: bridge
+
+volumes: 
+  frontend-build:
